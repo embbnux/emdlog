@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="/edit/{{node.id}}" method=post class=edit-entry>
+      <dl>
+        <dt>Title:
+        <dd><input type=text size=30 name=title value= {{node.title}} ></input>
+        <dt>Text:
+        <dd><textarea name=text rows=5 cols=40>{{node.text}}</textarea>
+        <dd><input type=submit value=Update />
+      </dl>
+    </form>
+  {% else %}
+    <h4> You have no permission for this page! </h4>
+  {% endif %}
+{% endblock %}

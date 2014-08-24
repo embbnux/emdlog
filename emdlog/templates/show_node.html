@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h2><a href="/node/{{ node.id }}">{{ node.title }}</a></h2>
+	<div>
+	  {{ node.text|safe }}
+	</div>
+{% endblock %}

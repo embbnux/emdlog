@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+<title>EmDLOG</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class=page>
+    <header>
+      <h1><a href="/">EmDLOG</a></h1>
+      <div class=metanav>
+      {% if not session.logged_in %}
+        <a href="{{ url_for('login') }}">log in</a>
+      {% else %}
+        <a href="{{ url_for('logout') }}">log out</a>
+      {% endif %}
+      </div>
+	</header>
+	<div class="content">
+      {% for message in get_flashed_messages() %}
+        <div class=flash>{{ message }}</div>
+      {% endfor %}
+      {% block body %}{% endblock %}
+	</div>
+	<footer>
+	 <p>Power by <a href="http://www.embbnux.com">Blog of Embbnux</a></p>
+	</footer>
+  </div>
+</body>
+</html>
