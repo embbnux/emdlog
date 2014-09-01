@@ -42,7 +42,7 @@ def add_entry():
 		return render_template('add_node.html')
 	return redirect(url_for('show_entries'))
 
-@app.route('/edit/<int:node_id>',methods=['GET','POST'])
+@app.route('/edit/<int:node_id>',methods=['GET'])
 def edit_entry(node_id):
 	if not session.get('logged_in'):
 		abort(401)
@@ -50,17 +50,25 @@ def edit_entry(node_id):
 		cur = g.db.execute('select id,title,text from entries where id= ? ',
 				[node_id])
 		node = [dict(id=row[0],title=row[1], text=row[2]) for row in cur.fetchall()]
-		return render_template('edit_node.html',node=node[0])
-	elif request.method == 'POST':
+		return render_template('edit_node.html',node=node[0])			
+	return redirect(url_for('show_entries'))
+
+@app.route('/save',methods=['POST'])
+def save_entry():
+	if not session.get('logged_in'):
+		abort(401)
+	if request.method == 'POST':
 		text = request.form['text']
+                title = request.form['title']
 		node_id = request.form['node_id']
 		g.db.execute('update entries set title= ? , text=? where id=?',
-				[request.form['title'],text,node_id])
+				[title,text,node_id])
 		g.db.commit()
 
 		flash('The article has been updated.')
-		return redirect(url_for('show_node'),node_id=node_id)
+		return redirect(url_for('show_node',node_id=node_id))
 	return redirect(url_for('show_entries'))
+
 @app.route('/delete',methods=['POST'])
 def delete_entry():
 	if not session.get('logged_in'):
