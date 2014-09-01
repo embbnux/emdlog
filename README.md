@@ -18,7 +18,7 @@ cd emdlog/emdlog
  
 sudo apt-get install sqlite3
  
-sqlite3  db/flaskr.db schema.sql
+sqlite3  db/flaskr.db < schema.sql
  
 cd ../
  
